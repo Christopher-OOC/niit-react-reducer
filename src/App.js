@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./index.css";
+import Product from "./Product";
 
-function App() {
+export default function App() {
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search here"
+        />
+        <button>Search</button>
+      </div>
+      <div className="container">
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : products.length === 0 ? (
+          <p>Cound not find any products for the search ({search})</p>
+        ) : (
+          products.map((product) => (
+            <Product product={product} key={product.id} />
+          ))
+        )}
+      </div>
+    </>
   );
 }
-
-export default App;
